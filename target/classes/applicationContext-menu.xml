@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<!-- Action -->
+	<!-- 别忘了action对应的类应该配置scope   非单例 -->
+	<bean id="menuAction" class="com.bxp.kjkj.auth.action.MenuAction" scope="prototype">
+		<property name="menuEbi" ref="menuEbi"/>
+		<property name="roleEbi" ref="roleEbi"/>
+	</bean>
+	<!-- Ebi -->
+	<bean id="menuEbi" class="com.bxp.kjkj.auth.service.impl.MenuEbo">
+		<property name="menuDao" ref="menuDao"/>
+	</bean>
+	<!-- Dao -->
+	<bean id="menuDao" class="com.bxp.kjkj.auth.dao.impl.MenuImpl">
+		<!-- 注入sessionFactory -->
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>	
+	

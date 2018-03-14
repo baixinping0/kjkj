@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<!-- Action -->
+	<!-- 别忘了action对应的类应该配置scope   非单例 -->
+	<bean id="data1024Action" class="com.bxp.kjkj.data.action.Data1024Action" scope="prototype">
+		<property name="data1024Ebi" ref="data1024Ebi"/>
+		<property name="empEbi" ref="empEbi"/>
+	</bean>
+	<!-- Ebi -->
+	<bean id="data1024Ebi" class="com.bxp.kjkj.data.service.impl.Data1024Ebo">
+		<property name="data1024Dao" ref="data1024Dao"/>
+	</bean>
+
+	<!-- Dao -->
+	<bean id="data1024Dao" class="com.bxp.kjkj.data.dao.impl.Data1024Impl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>	
+	

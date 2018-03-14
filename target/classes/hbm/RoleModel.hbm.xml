@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+        'http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>
+	<class name="com.bxp.kjkj.auth.entity.RoleModel" table="tbl_role">
+		<id name="uuid">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<property name="code" />
+
+		<!-- 配置角色到资源的多对多关系 -->
+		<set name="ress" table="tbl_role_res">
+			<key column="roleUuid" />
+			<many-to-many column="resUuid" class="com.bxp.kjkj.auth.entity.ResModel" />
+		</set>
+		
+		<!-- 配置角色到菜单的多对多关系 -->
+		<set name="menus" table="tbl_role_menu">
+			<key column="roleUuid"/>
+			
+			<many-to-many
+				column="menuUuid"
+				class="com.bxp.kjkj.auth.entity.MenuModel"
+			/>
+		</set>
+	</class>
+</hibernate-mapping>

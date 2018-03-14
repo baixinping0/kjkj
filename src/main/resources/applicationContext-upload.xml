@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<!-- Action -->
+	<!-- 别忘了action对应的类应该配置scope   非单例 -->
+	<bean id="uploadAction" class="com.bxp.kjkj.data.action.UploadAction" scope="prototype">
+		<!--<property name="uploadEbi" ref="uploadEbi"/>-->
+	</bean>
+	<!-- Ebi -->
+	<!--<bean id="uploadEbi" class="com.bxp.kjkj.data.service.impl.UploadEbo">-->
+
+	<!--</bean>-->
+
+</beans>	
+	

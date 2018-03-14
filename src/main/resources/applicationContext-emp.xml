@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<!-- Action -->
+	<!-- 别忘了action对应的类应该配置scope   非单例 -->
+	<bean id="empAction" class="com.bxp.kjkj.auth.action.EmpAction" scope="prototype">
+		<property name="empEbi" ref="empEbi"></property>
+		<property name="depEbi" ref="depEbi"></property>
+		<property name="roleEbi" ref="roleEbi"/>
+		<property name="resEbi" ref="resEbi"></property>
+	</bean>
+	<!-- Ebi -->
+	<bean id="empEbi" class="com.bxp.kjkj.auth.service.impl.EmpEbo">
+		<property name="empDao" ref="emoDao"/>
+	</bean>
+	<!-- Dao -->
+	<bean id="emoDao" class="com.bxp.kjkj.auth.dao.impl.EmpImpl">
+		<!-- 注入sessionFactory -->
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>	
+	

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+
+	<bean id="roleDao" class="com.bxp.kjkj.auth.dao.impl.RoleImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="roleEbi" class="com.bxp.kjkj.auth.service.impl.RoleEbo">
+		<property name="roleDao" ref="roleDao"/>
+	</bean>
+	<bean id="roleAction" class="com.bxp.kjkj.auth.action.RoleAction" scope="prototype">
+		<property name="roleEbi" ref="roleEbi"></property>	
+		<property name="resEbi" ref="resEbi"></property>	
+		<property name="menuEbi" ref="menuEbi"></property>
+	</bean>
+</beans>	
+	

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<bean id="resDao" class="com.bxp.kjkj.auth.dao.impl.ResImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="resEbi" class="com.bxp.kjkj.auth.service.impl.ResEbo">
+		<property name="resDao" ref="resDao"/>
+	</bean>
+	
+	<!-- action不要忘记添加scope属性，非单例 -->
+	<bean id="resAction" class="com.bxp.kjkj.auth.action.ResAction" scope="prototype">
+		<property name="resEbi" ref="resEbi"/>
+	</bean>
+</beans>	
+	

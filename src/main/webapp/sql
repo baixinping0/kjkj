@@ -1,0 +1,285 @@
+create database erp character set utf8;
+use erp;
+drop table tbl_emp;
+-- --创建用户
+create table tbl_emp (
+	uuid bigint(20) primary key not  null  auto_increment,
+	userName varchar(15),
+	pwd varchar(32),
+	name varchar(28),
+	email varchar(255),
+	tele varchar(30),
+	address varchar(255),
+	gender int(1),
+	birthday bigint(20),
+	depUuid bigint(20) not null,
+	lastLoginTime bigint not null,
+	lastLoginIp varchar(30) not null,
+	loginTimes int not null
+);
+
+insert into tbl_emp(uuid, userName, pwd, name,gender, email,tele,address, depUuid) values(null, 'admin', '21232f297a57a5a743894a0e4a801fc3','白新平', '1647469340@qq.com', '15809294537', '西安' , 1,1);
+
+--创建部门
+create table tbl_dep (
+	uuid bigint(20) primary key not  null  auto_increment,
+	name varchar(28),
+	tele varchar(30)
+);
+insert into tbl_dep(name, tele) values('信息中心', '15809294537');
+
+--创建角色
+create table tbl_role(
+	uuid bigint(20) primary key not null auto_increment,
+	name varchar(30) not null,
+	code varchar(30) not null
+);
+insert into tbl_role (name, code) values('系统管理员', 'admin');
+
+--创建资源
+
+create table tbl_res(
+	uuid bigint(20) primary key not null auto_increment,
+	name varchar(30) not null,
+	url varchar(255) not null
+);
+
+--创建员工到角色的多对多中间表
+create table tbl_emp_role(
+	uuid bigint(20) primary key not null auto_increment,
+	empUuid bigint(20),
+	roleUuid bigint(20)
+);
+insert into tbl_emp_role(empUuid, roleUuid)values('1', '1');
+
+--创建角色到资源的多对多中间表
+create table tbl_role_res(
+	uuid bigint(20) primary key not null auto_increment,
+	roleUuid bigint(20),
+	resUuid bigint(20)
+);
+
+--创建菜单数据库
+
+create table tbl_menu(
+	uuid bigint(20) primary key not null auto_increment,
+	name varchar(20) not null,
+	url varchar(255) not null,
+	puuid bigint(20) not null
+);
+insert into tbl_menu(name, url, puuid) values('系统菜单', '-', '0');
+insert into tbl_menu(name, url, puuid) values('基础维护', '-', '1');
+insert into tbl_menu(name, url, puuid) values('员工维护', 'emp_list', '2');
+insert into tbl_menu(name, url, puuid) values('部门维护', 'dep_list', '2');
+insert into tbl_menu(name, url, puuid) values('角色维护', 'role_list', '2');
+insert into tbl_menu(name, url, puuid) values('资源维护', 'res_list', '2');
+insert into tbl_menu(name, url, puuid) values('菜单维护', 'menu_list', '2');
+
+
+--创建角色对菜单的多对多中间表
+
+create table tbl_role_menu(
+	uuid bigint(20) primary key not null auto_increment,
+	roleUuid bigint(20) not null,
+	menuUuid bigint(20) not null
+);
+insert into tbl_role_menu(roleUuid, menuUuid)values('1', '1');
+insert into tbl_role_menu(roleUuid, menuUuid)values('1', '2');
+insert into tbl_role_menu(roleUuid, menuUuid)values('1', '3');
+insert into tbl_role_menu(roleUuid, menuUuid)values('1', '4');
+insert into tbl_role_menu(roleUuid, menuUuid)values('1', '5');
+insert into tbl_role_menu(roleUuid, menuUuid)values('1', '6');
+insert into tbl_role_menu(roleUuid, menuUuid)values('1', '7');
+
+--创建供应商的表
+create table tbl_supplier(
+	uuid bigint(20) primary key not null auto_increment,
+	name varchar(255) not null,
+	address varchar(255) not null,
+	contact varchar(30) not null,
+	tele varchar(30) not null,
+	needs int(1) not null
+);
+
+--创建商品类别表
+drop table tbl_goodsType;
+create table tbl_goodsType(
+	uuid bigint(20) primary key not null auto_increment,
+	name varchar(30) not null,
+	supplierUuid bigint(20) not null
+);
+
+--创建商品表
+drop table tbl_goods;
+create table tbl_goods(
+	uuid bigint(20) primary key not null auto_increment,
+	name varchar(30) not null,
+	origin varchar(30) not null,
+	producer varchar(30) not null,
+	unit varchar(30) not null,
+	inPrice decimal(10) not null,
+	outPrice decimal(10) not null,
+	goodsTypeUuid bigint(20) not null
+);
+
+--创建订单表
+drop table tbl_order;
+create table tbl_order(
+	uuid bigint(20) primary key not null auto_increment,
+	orderNum varchar(30) not null,
+	creater bigint(20) not null,
+	createTime bigint(20) not null,
+	checker bigint(20),
+	checkTime bigint(20),
+	completer bigint(20),
+	endTime bigint(20),
+	orderType int(1) not null,
+	type int(3) not null,
+	totalNum int(11) not null,
+	totalPrice decimal(10) not null,
+	supplierUuid bigint(20) not null
+)
+--创建订单明细表
+create table tbl_orderDetail(
+	uuid bigint(20) primary key not null auto_increment,
+	goodsUuid bigint(20) not null,
+	num int(11) not null,
+	price decimal(.10) not null,
+	orderUuid bigint(20) not null
+)
+
+--创建仓库表
+create table tbl_store(
+	uuid bigint(20) primary key not null auto_increment,
+	name varchar(30) not null,
+	address varchar(255) not null,
+	empUuid bigint(20) not null
+)
+
+--创建仓库明细表
+create table tbl_storeDetail(
+	uuid bigint(20) primary key not null auto_increment,
+	storeUuid bigint(20) not null,
+	goodsUuid bigint(20) not null,
+	num int(11) not null
+);
+
+仓库操作明细表
+create table tbl_storeOper(
+	uuid bigint(20) primary key not null auto_increment,
+	empUuid bigint(20) not null,
+	operTime bigint(20) not null,
+	type int(1) not null,
+	goodsUuid bigint(20) not null,
+	storeUuid bigint(20) not null,
+	num int(11) not null
+);
+
+报表数据的查询
+select
+	g.uuid,
+	g.name,
+	sum(od.num)
+from
+	tbl_orderDetail od,
+	tbl_goods g
+where
+	od.goodsUuid = g.uuid
+group by
+	goodsUuid;
+
+
+select
+	s.name ,
+	 g.uuid,
+	 g.name,
+	 sum(od.num)
+from
+	tbl_orderDetail od,
+	tbl_goods g,
+	tbl_goodsType gt,
+	tbl_supplier s
+where
+	g.uuid = od.goodsUuid  and
+	gt.uuid = g.goodsTypeUuid  and
+	s.uuid = gt.supplierUuid
+group by
+	g.uuid;
+
+为商品模块增加使用次数的字段
+
+alter table tbl_goods add useNum int(11);
+
+定时更新商品使用次数
+
+update
+	tbl_goods g
+set
+	useNum = (
+		select
+			count(od.num)
+		from
+			tbl_orderDetail od
+		where
+			g.uuid = od.goodsUuid
+	);
+
+为商品增加最大预警值和最小预警值
+
+alter table tbl_goods add maxNum int(11) not null;
+alter table tbl_goods add minNum int(11) not null;
+
+
+查询库存量
+select
+	g.name,
+	g.minNum > sum(sd.num) min,
+	g.maxNum < sum(sd.num) max
+from
+	tbl_storeDetail sd,
+	tbl_goods g
+where
+	g.uuid = sd.goodsUuid
+group by
+	g.uuid
+	;
+
+select g.name,g.minNum > sum(sd.num) min,g.maxNum < sum(sd.num) max from tbl_storeDetail sd, tbl_goods g where  g.uuid = sd.goodsUuid  group by g.uuid
+
+DROP TABLE IF EXISTS `tbl_data1024`;
+create table tbl_data1024(
+	uuid bigint(20) primary key not null auto_increment,
+	chanel bigint not null,
+	dataType int not null,
+	errorRow bigint not null,
+	errorType int not null,
+	currentCount bigint not null,
+	nextCount bigint not null,
+	inputTime bigint not null,
+	produceTime bigint not null,
+	reporter bigint not null
+);
+INSERT INTO `tbl_data1024` VALUES (1,8,100,46874, 200, 53910, 53912,'1515296318719','1515296318719', 1),(2,9,100,46875, 200, 53911, 53913,'1515296318719','1515296318719', 1),
+(3,10,100,46876, 200, 53912, 53914,'1515296318719','1515296318719', 1),(4,11,100,46877, 200, 53913, 53915,'1515296318719','1515296318719', 1),(5,12,100,46878, 200, 53914, 53916,'1515296318719','1515296318719', 1),
+(6,13,100,46879, 200, 53915, 53917,'1515296318719','1515296318719', 1),(7,14,100,46873, 200, 53916, 53918,'1515296318719','1515296318719', 1);
+DROP TABLE IF EXISTS `tbl_data848`;
+create table tbl_data848(
+	uuid bigint(20) primary key not null auto_increment,
+	errorFrame varchar(20) not null,
+	correctCode varchar(20) not null,
+	actualCode varchar(20) not null,
+	inputTime bigint not null,
+	produceTime bigint not null,
+	reporter bigint not null
+);
+INSERT INTO `tbl_data848` VALUES (1,'0','1f 15','88 82','1515296318719','1515296318719', 1),(2,'1','2f 15','88 83','1515296318719','1515296318719', 1),
+(3,'2','3f 15','88 84','1515296318719','1515296318719', 1);
+
+
+
+
+
+
+
+
+

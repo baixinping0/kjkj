@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+        'http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>
+	<class name="com.bxp.kjkj.auth.entity.EmpModel" table="tbl_emp">
+		<id name="uuid">
+			<generator class="native" />
+		</id>
+		<property name="userName" />
+		<property name="pwd" />
+		<property name="name" />
+		<property name="email" />
+		<property name="address" />
+		<property name="birthday" />
+		<property name="gender" />
+		<property name="tele" />
+		<property name="lastLoginTime" />
+		<property name="lastLoginIp" />
+		<property name="loginTimes" />
+
+		<!-- 员工到部门的多对一 -->
+		<many-to-one name="dep" class="com.bxp.kjkj.auth.entity.DepModel"
+			column="depUuid" />
+		<!-- 员工到角色的多对多 -->
+		<set name="roles" table="tbl_emp_role">
+			<key column="empUuid" />
+			<many-to-many column="roleUuid"
+			class="com.bxp.kjkj.auth.entity.RoleModel"
+			/>
+
+		</set>
+	</class>
+</hibernate-mapping>

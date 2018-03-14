@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- 此处如果是resource则value只能写一个文件名 value="mes" 此处如果是resources则value可以写多个文件名 
+		value="mes,mes2" -->
+	<constant name="struts.custom.i18n.resources" value="mes"></constant>
+	<package name="default" namespace="/" extends="json-default">
+
+		<!-- 自定义拦截器 -->
+		<interceptors>
+			<interceptor name="fileUpload" class="org.apache.struts2.interceptor.FileUploadInterceptor"/>
+			<interceptor name="loginInterceptor"
+				class="com.bxp.kjkj.util.interceptor.LoginInterceptor" />
+			<interceptor name="exceptionInterceptor"
+				class="com.bxp.kjkj.util.interceptor.ExceptionInterceptor" />
+			<interceptor name="authInterceptor"
+				class="com.bxp.kjkj.util.interceptor.AuthInterceptor"></interceptor>
+			<interceptor-stack name="systemStack">
+				<!-- 调用自定义的拦截器 -->
+				<interceptor-ref name="exceptionInterceptor"></interceptor-ref>
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="authInterceptor"></interceptor-ref>
+				<!-- 调用系统的拦截器 -->
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- 配置拦截器栈 -->
+		<default-interceptor-ref name="systemStack" />
+
+
+
+		<!-- 对于struts中出现的结果集要与全局result进行匹配 -->
+		<global-results>
+			<!-- 必须跳转到一个全屏显示功能对应的页面 -->
+			<result name="noLogin">/index.jsp</result>
+			<result name="error">/WEB-INF/jsps/error.jsp</result>
+			<result name="list">/WEB-INF/jsps/${actionName}/list.jsp</result>
+			<result name="toList" type="redirectAction">${actionName}_list</result>
+			<result name="input">/WEB-INF/jsps/${actionName}/input.jsp</result>
+		</global-results>
+
+		<!-- <action name="login"> <result>/WEB-INF/jsps/login.jsp</result> </action> -->
+		<action name="page_*">
+			<result>/WEB-INF/jsps/{1}.jsp</result>
+		</action>
+
+		<!-- dep -->
+		<action name="dep_*" class="depAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/dep/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/dep/input.jsp</result>
+			<result name="doList" type="redirect">/dep_list</result>
+		</action>
+
+		<!-- emp -->
+		<action name="emp_*" class="empAction" method="{1}">
+			<result name="loginFile">/WEB-INF/jsps/login.jsp</result>
+			<result name="loginSuccess">/WEB-INF/jsps/main.jsp</result>
+			<result name="list">/WEB-INF/jsps/emp/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/emp/input.jsp</result>
+			<result name="doList" type="redirect">emp_list</result>
+			<result name="logout">/WEB-INF/jsps/login.jsp</result>
+			<result name="toChangePwd">/WEB-INF/jsps/emp/changePwd.jsp</result>
+		</action>
+
+		<!-- role -->
+		<action name="role_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/role/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/role/input.jsp</result>
+			<result name="doList" type="redirect">role_list</result>
+		</action>
+
+		<!-- res -->
+		<action name="res_*" class="resAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/res/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/res/input.jsp</result>
+			<result name="doList" type="redirect">res_list</result>
+		</action>
+
+		<!-- menu -->
+		<action name="menu_*" class="menuAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/menu/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/menu/input.jsp</result>
+			<result name="doList" type="redirect">/menu_list</result>
+		</action>
+
+		<!-- upload -->
+		<action name="upload_*" class="uploadAction" method="{1}">
+			<result name="page">/WEB-INF/jsps/upload/page.jsp</result>
+		</action>
+
+		<!-- data1024 -->
+		<action name="data1024_*" class="data1024Action" method="{1}">
+			<result name="list">/WEB-INF/jsps/data1024/list.jsp</result>
+		</action>
+
+		<!-- data848_ -->
+		<action name="data848_*" class="data848Action" method="{1}">
+			<result name="list">/WEB-INF/jsps/data848/list.jsp</result>
+		</action>
+
+	</package>
+</struts>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
